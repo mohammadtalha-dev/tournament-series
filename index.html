@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FREE FIRE ESPORTS - TOURNAMENT PORTAL</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <header>
+    <div class="logo">⚡ FF ESPORTS ⚡</div>
+    <div class="nav-toggle">
+      <button id="view-user-btn" class="active-tab" onclick="switchTab('user')">🎮 USER PORTAL</button>
+      <button id="view-admin-btn" onclick="openAdminPasswordModal()">⚙️ ADMIN PANEL</button>
+    </div>
+  </header>
+
+  <!-- USER PORTAL -->
+  <main id="user-portal" class="container">
+    <section class="hero-header">
+      <h1>FREE FIRE TOURNAMENTS</h1>
+      <p>Select season to view match info, leaderboard, or register your team!</p>
+    </section>
+
+    <!-- DYNAMIC SEASON BUTTONS -->
+    <nav class="season-navigation">
+      <h3>SELECT SEASON:</h3>
+      <div id="season-buttons" class="neon-btn-group"></div>
+    </nav>
+
+    <!-- SEASON DISPLAY CARD -->
+    <section class="neon-card">
+      <div class="card-header">
+        <h2 id="season-title">Season Title</h2>
+        <span id="season-status" class="badge">Status</span>
+      </div>
+      <p id="season-desc" class="desc-text"></p>
+
+      <!-- CHAMPION BOX -->
+      <div id="winner-container" class="winner-box glow-gold">
+        <h4>🏆 CHAMPION:</h4>
+        <p id="season-winner" class="winner-name">TBD</p>
+      </div>
+
+      <!-- REGISTRATION FORM SECTION -->
+      <div id="registration-section" class="registration-box">
+        <h3>📝 TEAM REGISTRATION FOR THIS SEASON</h3>
+        <p class="sub-text">Fill out the form below to participate.</p>
+
+        <form id="team-register-form" onsubmit="handleRegistration(event)">
+          <div class="input-group">
+            <label>Team Name *</label>
+            <input type="text" id="reg-team-name" placeholder="e.g. OP WARRIORS" required>
+          </div>
+
+          <div class="input-group">
+            <label>Team Leader Free Fire UID *</label>
+            <input type="text" id="reg-leader-uid" placeholder="e.g. 1234567890" required>
+          </div>
+
+          <div class="input-group">
+            <label>WhatsApp Number *</label>
+            <input type="tel" id="reg-whatsapp" placeholder="e.g. +92 300 1234567" required>
+          </div>
+
+          <div class="input-group">
+            <label>Registration Password *</label>
+            <input type="password" id="reg-password" placeholder="Enter password" required>
+          </div>
+
+          <button type="submit" class="neon-btn btn-green btn-block">🚀 SUBMIT REGISTRATION</button>
+        </form>
+      </div>
+
+      <!-- POINTS TABLE SECTION -->
+      <div class="points-table-container">
+        <h3>📊 LEADERBOARD & POINTS TABLE</h3>
+        <table class="neon-table">
+          <thead>
+            <tr>
+              <th>RANK</th>
+              <th>TEAM NAME</th>
+              <th>KILLS</th>
+              <th>BOOYAH</th>
+              <th>TOTAL POINTS</th>
+            </tr>
+          </thead>
+          <tbody id="user-points-tbody">
+            <!-- Dynamic Rows -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- ADMIN PANEL -->
+  <main id="admin-panel" class="container hidden">
+    <section class="hero-header admin-hero">
+      <h1>⚙️ TOURNAMENT CONTROL PANEL</h1>
+      <p>Manage seasons, status, standings, passwords, and view registered teams.</p>
+    </section>
+
+    <!-- ADMIN: SECURITY & ADMIN PASSWORD SETTINGS -->
+    <section class="neon-card admin-card">
+      <h3>🔑 Change Admin Security Password</h3>
+      <form id="admin-pass-form" onsubmit="changeAdminPassword(event)">
+        <div class="input-group">
+          <label>New Admin Password:</label>
+          <input type="password" id="new-admin-pass" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="neon-btn btn-red">🔒 Update Admin Password</button>
+      </form>
+    </section>
+
+    <!-- ADMIN: MANAGE SEASONS -->
+    <section class="neon-card admin-card">
+      <h3>➕ Create / Select Season</h3>
+      <div class="form-row">
+        <select id="admin-season-select" onchange="loadAdminSeasonData()">
+          <!-- Dynamic Options -->
+        </select>
+        <button class="neon-btn btn-green" onclick="addNewSeasonPrompt()">+ Add New Season</button>
+      </div>
+
+      <hr class="neon-hr">
+
+      <form id="admin-season-form" onsubmit="saveSeasonDetails(event)">
+        <div class="input-group">
+          <label>Season Title:</label>
+          <input type="text" id="admin-title" required>
+        </div>
+
+        <div class="input-group">
+          <label>Season Status:</label>
+          <select id="admin-status">
+            <option value="Completed">Completed</option>
+            <option value="Live / Registration Open">Live / Registration Open</option>
+            <option value="Upcoming">Upcoming</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Season Registration Password:</label>
+          <input type="text" id="admin-reg-pass" placeholder="Enter password" required>
+        </div>
+
+        <div class="input-group">
+          <label>Description:</label>
+          <textarea id="admin-desc" rows="2"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label>Declared Champion:</label>
+          <input type="text" id="admin-winner" placeholder="e.g. Team Alpha">
+        </div>
+
+        <button type="submit" class="neon-btn btn-cyan">💾 Save Season Info</button>
+      </form>
+    </section>
+
+    <!-- ADMIN: VIEW REGISTERED TEAMS -->
+    <section class="neon-card admin-card">
+      <div class="card-header">
+        <h3>📋 Registered Teams for Selected Season</h3>
+        <button class="neon-btn btn-green" onclick="downloadRegistrationsCSV()">📥 Export / Download CSV</button>
+      </div>
+
+      <table class="neon-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Team Name</th>
+            <th>Leader FF UID</th>
+            <th>WhatsApp No</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="admin-reg-tbody">
+          <!-- Dynamic Registration Rows -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ADMIN: EDIT POINTS TABLE -->
+    <section class="neon-card admin-card">
+      <h3>📊 Edit Points Table</h3>
+      
+      <table class="neon-table">
+        <thead>
+          <tr>
+            <th>Team Name</th>
+            <th>Kills</th>
+            <th>Booyah</th>
+            <th>Total Points</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="admin-points-tbody">
+          <!-- Editable Rows -->
+        </tbody>
+      </table>
+
+      <div class="admin-actions">
+        <button class="neon-btn btn-green" onclick="addTeamRow()">+ Add Team</button>
+        <button class="neon-btn btn-cyan" onclick="savePointsTable()">💾 Save Points Table</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- CUSTOM NEON POPUP MODAL -->
+  <div id="custom-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title">Heading</h3>
+        <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-message"></p>
+        <div id="modal-input-container" class="input-group hidden">
+          <input type="password" id="modal-input-field" placeholder="Enter password">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-cancel-btn" class="neon-btn btn-red hidden" onclick="closeModal()">Cancel</button>
+        <button id="modal-confirm-btn" class="neon-btn btn-green">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
