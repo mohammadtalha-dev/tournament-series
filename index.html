@@ -102,26 +102,44 @@
       <p>Manage seasons, status, standings, passwords, and view registered teams.</p>
     </section>
 
-    <!-- ADMIN: SECURITY & ADMIN PASSWORD SETTINGS -->
+    <!-- ADMIN: SECURITY PASSWORD SETTINGS -->
     <section class="neon-card admin-card">
-      <h3>🔑 Change Admin Security Password</h3>
+      <h3>🔑 Change Admin Panel Password</h3>
       <form id="admin-pass-form" onsubmit="changeAdminPassword(event)">
         <div class="input-group">
           <label>New Admin Password:</label>
-          <input type="password" id="new-admin-pass" placeholder="Enter password" required>
+          <input type="password" id="new-admin-pass" placeholder="Enter new admin password" required>
         </div>
         <button type="submit" class="neon-btn btn-red">🔒 Update Admin Password</button>
       </form>
     </section>
 
+    <!-- NEW: DEDICATED SEASON REGISTRATION PASSWORD SETTINGS -->
+    <section class="neon-card admin-card">
+      <h3>🔐 Change Season Registration Password</h3>
+      <p class="sub-text" style="margin-bottom: 15px;">Set registration password for the currently selected season.</p>
+      <form id="season-reg-pass-form" onsubmit="changeRegistrationPassword(event)">
+        <div class="input-group">
+          <label>New Registration Password:</label>
+          <input type="text" id="admin-reg-pass" placeholder="Enter new registration password" required>
+        </div>
+        <button type="submit" class="neon-btn btn-cyan">🔑 Update Registration Password</button>
+      </form>
+    </section>
+
     <!-- ADMIN: MANAGE SEASONS -->
     <section class="neon-card admin-card">
-      <h3>➕ Create / Select Season</h3>
-      <div class="form-row">
-        <select id="admin-season-select" onchange="loadAdminSeasonData()">
-          <!-- Dynamic Options -->
-        </select>
-        <button class="neon-btn btn-green" onclick="addNewSeasonPrompt()">+ Add New Season</button>
+      <h3>➕ Select or Add Season</h3>
+      
+      <!-- STYLED SEASON SELECT DROPDOWN & ADD BUTTON -->
+      <div class="season-select-wrapper">
+        <div class="input-group select-group">
+          <label for="admin-season-select">Select Active Season:</label>
+          <select id="admin-season-select" class="neon-select" onchange="loadAdminSeasonData()">
+            <!-- Dynamic Options -->
+          </select>
+        </div>
+        <button type="button" class="neon-btn btn-green add-season-btn" onclick="addNewSeasonPrompt()">+ Add New Season</button>
       </div>
 
       <hr class="neon-hr">
@@ -134,16 +152,11 @@
 
         <div class="input-group">
           <label>Season Status:</label>
-          <select id="admin-status">
+          <select id="admin-status" class="neon-select">
             <option value="Completed">Completed</option>
             <option value="Live / Registration Open">Live / Registration Open</option>
             <option value="Upcoming">Upcoming</option>
           </select>
-        </div>
-
-        <div class="input-group">
-          <label>Season Registration Password:</label>
-          <input type="text" id="admin-reg-pass" placeholder="Enter password" required>
         </div>
 
         <div class="input-group">
@@ -164,7 +177,7 @@
     <section class="neon-card admin-card">
       <div class="card-header">
         <h3>📋 Registered Teams for Selected Season</h3>
-        <button class="neon-btn btn-green" onclick="downloadRegistrationsCSV()">📥 Export / Download CSV</button>
+        <button type="button" class="neon-btn btn-green" onclick="downloadRegistrationsCSV()">📥 Export / Download CSV</button>
       </div>
 
       <table class="neon-table">
@@ -203,8 +216,8 @@
       </table>
 
       <div class="admin-actions">
-        <button class="neon-btn btn-green" onclick="addTeamRow()">+ Add Team</button>
-        <button class="neon-btn btn-cyan" onclick="savePointsTable()">💾 Save Points Table</button>
+        <button type="button" class="neon-btn btn-green" onclick="addTeamRow()">+ Add Team</button>
+        <button type="button" class="neon-btn btn-cyan" onclick="savePointsTable()">💾 Save Points Table</button>
       </div>
     </section>
   </main>
@@ -214,7 +227,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <h3 id="modal-title">Heading</h3>
-        <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+        <button type="button" class="modal-close-btn" onclick="closeModal()">&times;</button>
       </div>
       <div class="modal-body">
         <p id="modal-message"></p>
@@ -223,8 +236,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="modal-cancel-btn" class="neon-btn btn-red hidden" onclick="closeModal()">Cancel</button>
-        <button id="modal-confirm-btn" class="neon-btn btn-green">OK</button>
+        <button type="button" id="modal-cancel-btn" class="neon-btn btn-red hidden" onclick="closeModal()">Cancel</button>
+        <button type="button" id="modal-confirm-btn" class="neon-btn btn-green">OK</button>
       </div>
     </div>
   </div>
