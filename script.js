@@ -63,7 +63,7 @@ const initialSeasons = [
   function openAdminPasswordModal() {
     const adminPanel = document.getElementById("admin-panel");
     if (!adminPanel.classList.contains("hidden")) {
-      return; // Already on admin panel
+      return;
     }
   
     showModal({
@@ -124,6 +124,23 @@ const initialSeasons = [
     }
   }
   
+  // NEW: CHANGE REGISTRATION PASSWORD FOR SELECTED SEASON
+  function changeRegistrationPassword(e) {
+    e.preventDefault();
+    const newRegPass = document.getElementById("admin-reg-pass").value.trim();
+    const season = tournamentData.find(s => s.id === activeSeasonId);
+  
+    if (season && newRegPass) {
+      season.regPassword = newRegPass;
+      saveData();
+      showModal({
+        title: "✅ Success",
+        message: `Registration Password updated for ${season.title}!`,
+        hasInput: false
+      });
+    }
+  }
+  
   /* ================= USER PORTAL ================= */
   function renderUserPortal() {
     const buttonContainer = document.getElementById("season-buttons");
@@ -176,14 +193,14 @@ const initialSeasons = [
           <td>${p.team}</td>
           <td>${p.kills}</td>
           <td>${p.booyah}</td>
-          <td style="color:#39ff14; font-weight:bold;">${p.total}</td>
+          <td style="color:#00ff88; font-weight:bold;">${p.total}</td>
         </tr>`;
         tbody.innerHTML += row;
       });
     }
   }
   
-  // REGISTRATION SUBMISSION WITH BEAUTIFUL POPUP
+  // REGISTRATION SUBMISSION
   function handleRegistration(e) {
     e.preventDefault();
   
@@ -225,7 +242,6 @@ const initialSeasons = [
   
     saveData();
   
-    // SUCCESS POPUP
     showModal({
       title: "🎉 REGISTRATION SUCCESSFUL!",
       message: `Congratulations! Team "${teamName}" has been successfully registered for ${season.title}!`,
@@ -276,7 +292,7 @@ const initialSeasons = [
           <td>${idx + 1}</td>
           <td><strong>${r.teamName}</strong></td>
           <td>${r.leaderUid}</td>
-          <td><a href="https://wa.me/${r.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" style="color:#39ff14;">${r.whatsapp}</a></td>
+          <td><a href="https://wa.me/${r.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" style="color:#00ff88;">${r.whatsapp}</a></td>
           <td><button class="neon-btn btn-red" onclick="deleteRegistration(${idx})">X</button></td>
         </tr>`;
         regTbody.innerHTML += row;
@@ -306,14 +322,13 @@ const initialSeasons = [
     if (season) {
       season.title = document.getElementById("admin-title").value;
       season.status = document.getElementById("admin-status").value;
-      season.regPassword = document.getElementById("admin-reg-pass").value.trim();
       season.description = document.getElementById("admin-desc").value;
       season.winner = document.getElementById("admin-winner").value;
   
       saveData();
       showModal({
         title: "💾 Saved",
-        message: "Season Details and Registration Password updated!",
+        message: "Season Details updated!",
         hasInput: false
       });
       renderUserPortal();
