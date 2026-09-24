@@ -351,3 +351,85 @@ header {
   gap: 10px;
   margin-top: 18px;
 }
+/* ================= MOBILE RESPONSIVE FIXES ================= */
+
+/* Small screens & Mobile phones */
+@media screen and (max-width: 768px) {
+  
+  /* Header adjustment */
+  header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 15px;
+    text-align: center;
+  }
+
+  .nav-toggle {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-toggle button {
+    flex: 1;
+    margin: 0 4px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  /* Main container padding */
+  .container {
+    margin: 15px auto;
+    padding: 0 10px;
+  }
+
+  .hero-header h1 {
+    font-size: 1.7rem;
+  }
+
+  /* Neon Cards padding */
+  .neon-card {
+    padding: 16px;
+  }
+
+  /* Season select & buttons in Admin */
+  .season-select-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .add-season-btn {
+    width: 100%;
+  }
+
+  .admin-actions {
+    flex-direction: column;
+  }
+
+  .admin-actions button {
+    width: 100%;
+  }
+
+  /* Responsive Table scroll wrapper */
+  .points-table-container, 
+  .admin-card {
+    overflow-x: auto;
+  }
+
+  .neon-table {
+    min-width: 500px; /* Table ko compress hone se rokta hai */
+  }
+
+  .neon-table th, 
+  .neon-table td {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+  }
+
+  /* Modal Popup size fix */
+  .modal-box {
+    width: 95%;
+    padding: 18px;
+  }
+}
