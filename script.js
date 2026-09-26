@@ -1,3 +1,18 @@
+// ================= FIREBASE SETUP (ADDED) =================
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+// =========================================================
+
 // INITIAL SEASONS DATA
 const initialSeasons = [
     { id: 1, title: "Season 1", status: "Completed", regPassword: "114477", description: "", winner: "", registrations: [], points: [] },
@@ -13,6 +28,27 @@ const initialSeasons = [
   
   function saveData() {
     localStorage.setItem("ff_tournaments_v4", JSON.stringify(tournamentData));
+    // Firebase global save added (purana logic intact)
+    if (typeof db !== "undefined") {
+      db.ref("tournaments").set(tournamentData);
+    }
+  }
+
+  // Real-time listener added to update UI automatically for all users
+  if (typeof db !== "undefined") {
+    db.ref("tournaments").on("value", (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        tournamentData = data;
+        localStorage.setItem("ff_tournaments_v4", JSON.stringify(tournamentData));
+        const adminPanel = document.getElementById("admin-panel");
+        if (adminPanel && !adminPanel.classList.contains("hidden")) {
+          loadAdminSeasonData();
+        } else {
+          renderUserPortal();
+        }
+      }
+    });
   }
   
   /* ================= CUSTOM MODAL POPUP SYSTEM ================= */
@@ -437,3 +473,4 @@ const initialSeasons = [
   
   // Initial Load
   renderUserPortal();
+        
