@@ -1,12 +1,13 @@
-// ================= FIREBASE SETUP (ADDED) =================
+// ================= FIREBASE SETUP =================
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyD7kgJMiA7Lz2_zozd69YUKLmIE6kgampo",
+  authDomain: "freefire-portal.firebaseapp.com",
+  databaseURL: "https://freefire-portal-default-rtdb.firebaseio.com",
+  projectId: "freefire-portal",
+  storageBucket: "freefire-portal.firebasestorage.app",
+  messagingSenderId: "1027711803685",
+  appId: "1:1027711803685:web:c0e0d31e5b6c7898c67acc",
+  measurementId: "G-SRS3DS2M3L"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -473,4 +474,4 @@ const initialSeasons = [
   
   // Initial Load
   renderUserPortal();
-        
+      
